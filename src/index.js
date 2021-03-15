@@ -63,7 +63,7 @@ app.get('/consultar/todos', async(req,res) => {
 
 });
 
-app.post('/consultar/usuario/ejemplo', async(req,res) => {
+app.get('/consultar/usuario/ejemplo', async(req,res) => {
 
     usuario = await user.find({ direccion: usuariobuscado }, function (err, docs) {});
 
