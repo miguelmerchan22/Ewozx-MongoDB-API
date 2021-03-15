@@ -114,7 +114,7 @@ app.post('/registrar/:direccion', async(req,res) => {
          var users = new user({ 
             direccion: cuenta,
             registered: false,
-            sponsor: usuariobuscado,
+            sponsor: cuenta,
             exist: true,
             ethereum: '',
             eth: false,
