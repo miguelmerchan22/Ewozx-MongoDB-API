@@ -44,6 +44,27 @@ var cosa2;
 
 app.get('/', async(req,res) => {
 
+    mongoose.connect(uri, options).then(
+      () => { res.send("Conectado a mongoDB Exitodamente!");},
+      err => { res.send(err); }
+    );
+
+
+});
+
+
+app.get('/consultar/todos', async(req,res) => {
+
+    usuario = await user.find({}, function (err, docs) {});
+
+    console.log(usuario);
+
+    res.send(usuario);
+
+});
+
+app.post('/consultar/usuario/ejemplo', async(req,res) => {
+
     usuario = await user.find({ direccion: usuariobuscado }, function (err, docs) {});
 
     console.log(usuario);
@@ -52,11 +73,8 @@ app.get('/', async(req,res) => {
 
 });
 
-    
 
-
-
-app.post('/buscar', async(req,res) => {
+app.post('/consultar/usuario', async(req,res) => {
 
     let cuenta = req.body.cuenta;
 
