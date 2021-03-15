@@ -83,9 +83,6 @@ app.get('/consultar/:direccion', async(req,res) => {
 
 });
 
-req.params.name
-
-
 app.post('/consultar/usuario', async(req,res) => {
 
     let cuenta = req.body.cuenta;
