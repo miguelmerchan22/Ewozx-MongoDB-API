@@ -73,6 +73,18 @@ app.get('/consultar/usuario/ejemplo', async(req,res) => {
 
 });
 
+app.get('/consultar/:direccion', async(req,res) => {
+
+    usuario = await user.find({ direccion: req.params.direccion }, function (err, docs) {});
+
+    console.log(usuario);
+
+    res.send(usuario[0]);
+
+});
+
+req.params.name
+
 
 app.post('/consultar/usuario', async(req,res) => {
 
