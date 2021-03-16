@@ -76,15 +76,6 @@ app.get('/consultar/ejemplo', async(req,res) => {
 
 });
 
-app.post('/', async(req,res) => {
-
-    console.log(req.body);
-
-    res.send(req.body);
-
-});
-
-
 app.get('/consultar/:direccion', async(req,res) => {
 
     let cuenta = req.params.direccion;
@@ -124,8 +115,8 @@ app.get('/registrar/:direccion', async(req,res) => {
              var users = new user({ 
                 direccion: cuenta,
                 registered: false,
-                sponsor: cuenta,
-                exist: true,
+                sponsor: '',
+                exist: false,
                 ethereum: '',
                 eth: false,
                 rango: 0,
@@ -153,10 +144,23 @@ app.get('/registrar/:direccion', async(req,res) => {
         res.send(respuesta);
     }
 
-    
+
+});
 
 
-    
+app.get('/actualizar/:direccion', async(req,res) => {
+
+    let cuenta = req.params.direccion;
+
+    let datos = req.body
+
+    //console.log(datos)
+
+    usuario = await user.updateOne({ direccion: cuenta }, datos);
+
+    //console.log(usuario);
+
+    res.send(usuario);
 
 });
 
