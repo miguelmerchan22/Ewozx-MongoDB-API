@@ -1,5 +1,7 @@
 const express = require('express')
 const bodyParser = require("body-parser");
+const TronWeb = require('tronweb');
+
 
 
 const app = express()
@@ -8,6 +10,7 @@ const port = process.env.PORT || 3003
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 const mongoose = require('mongoose');
 
@@ -38,7 +41,7 @@ var user = mongoose.model('usuarios', {
     
     });
 
-var usuariobuscado = 'david lopez lopez';
+var usuariobuscado = 'TB7RTxBPY4eMvKjceXj8SWjVnZCrWr4XvF';
 
 var cosa2;
 
@@ -63,7 +66,7 @@ app.get('/consultar/todos', async(req,res) => {
 
 });
 
-app.get('/consultar/usuario/ejemplo', async(req,res) => {
+app.get('/consultar/ejemplo', async(req,res) => {
 
     usuario = await user.find({ direccion: usuariobuscado }, function (err, docs) {});
 
@@ -73,19 +76,18 @@ app.get('/consultar/usuario/ejemplo', async(req,res) => {
 
 });
 
+app.post('/', async(req,res) => {
+
+    console.log(req.body);
+
+    res.send(req.body);
+
+});
+
+
 app.get('/consultar/:direccion', async(req,res) => {
 
-    usuario = await user.find({ direccion: req.params.direccion }, function (err, docs) {});
-
-    console.log(usuario);
-
-    res.send(usuario[0]);
-
-});
-
-app.post('/consultar/usuario', async(req,res) => {
-
-    let cuenta = req.body.cuenta;
+    let cuenta = req.params.direccion;
 
     usuario = await user.find({ direccion: cuenta }, function (err, docs) {});
 
@@ -95,50 +97,61 @@ app.post('/consultar/usuario', async(req,res) => {
 
 });
 
-app.post('/registrar/:direccion', async(req,res) => {
+app.get('/registrar/:direccion', async(req,res) => {
 
     let cuenta = req.params.direccion;
-    var respuesta.status = "200";
+    let respuesta = {};
+    respuesta.status = "200";
 
     usuario = await user.find({ direccion: cuenta }, function (err, docs) {});
 
-    if ( usuario.direccion == cuenta ) {
-        respuesta.status = "303";
-        respuesta.txt = "Cuenta ya registrada";
-        respuesta.usuario = usuario[0];
+    //res.send(usuario);
 
-        res.send(respuesta);
+    //console.log(await TronWeb.isAddress(cuenta));
 
-    }else{
 
-         var users = new user({ 
-            direccion: cuenta,
-            registered: false,
-            sponsor: cuenta,
-            exist: true,
-            ethereum: '',
-            eth: false,
-            rango: 0,
-            recompensa: false,
-            nivel: [0,0,0,0,0,0,0,0,0,0],
-            balanceTrx: 0,
-            withdrawnTrx: 0,
-            investedWozx: 0,
-            withdrawnWozx: 0,
-            wozxPendig: 0,
-            p: false
-        });
+    if (await TronWeb.isAddress(cuenta)) {
 
-        users.save().then(() => {
-            respuesta.status = "300";
-            respuesta.txt = "Usuario creado exitodamente";
-            respuesta.usuario = users;
+        if ( usuario != "" ) {
+            respuesta.status = "303";
+            respuesta.txt = "Cuenta ya registrada";
+            respuesta.usuario = usuario[0];
 
             res.send(respuesta);
-        });
 
+        }else{
+
+             var users = new user({ 
+                direccion: cuenta,
+                registered: false,
+                sponsor: cuenta,
+                exist: true,
+                ethereum: '',
+                eth: false,
+                rango: 0,
+                recompensa: false,
+                nivel: [0,0,0,0,0,0,0,0,0,0],
+                balanceTrx: 0,
+                withdrawnTrx: 0,
+                investedWozx: 0,
+                withdrawnWozx: 0,
+                wozxPendig: 0,
+                p: false
+            });
+
+            users.save().then(() => {
+                respuesta.status = "300";
+                respuesta.txt = "Usuario creado exitodamente";
+                respuesta.usuario = users;
+
+                res.send(respuesta);
+            });
+
+        }
+    }else{
+        respuesta.txt = "Ingrese una direccion de TRX";
+        res.send(respuesta);
     }
-
 
     
 
