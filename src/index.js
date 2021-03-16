@@ -37,7 +37,14 @@ var user = mongoose.model('usuarios', {
         investedWozx: Number,
         withdrawnWozx: Number,
         wozxPendig: Number,
-        p: Boolean
+        p: Boolean,
+        historial: [{
+            tiempo: Number, 
+            valor: Number,
+            moneda: String,
+            accion: String
+
+        }]
     
     });
 
@@ -80,11 +87,24 @@ app.get('/consultar/:direccion', async(req,res) => {
 
     let cuenta = req.params.direccion;
 
+    let respuesta = {};
+
     usuario = await user.find({ direccion: cuenta }, function (err, docs) {});
 
-    console.log(usuario);
+    //console.log(usuario);
 
-    res.send(usuario[0]);
+    if ( usuario == "" ) {
+
+        
+        respuesta.status = "200";
+        respuesta.txt = "Esta cuenta no está registrada";
+        res.send(respuesta);
+        
+    }else{
+        respuesta = usuario[0];
+        respuesta.status = "300";
+        res.status(300).send(respuesta);
+    }
 
 });
 
@@ -127,7 +147,14 @@ app.get('/registrar/:direccion', async(req,res) => {
                 investedWozx: 0,
                 withdrawnWozx: 0,
                 wozxPendig: 0,
-                p: false
+                p: false,
+                historial: [{
+                    tiempo: Date.now(), 
+                    valor: 50,
+                    moneda: 'TRX',
+                    accion: 'Cost register in plataform'
+
+                }]
             });
 
             users.save().then(() => {
