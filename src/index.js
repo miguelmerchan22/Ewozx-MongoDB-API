@@ -177,7 +177,7 @@ app.post('/actualizar/:direccion', async(req,res) => {
     let cuenta = req.params.direccion;
     let datos = req.body
 
-    //console.log(datos)
+    console.log(datos)
 
     usuario = await user.updateOne({ direccion: cuenta }, datos);
 
