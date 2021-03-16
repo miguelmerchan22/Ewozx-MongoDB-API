@@ -155,7 +155,7 @@ app.get('/registrar/:direccion', async(req,res) => {
             });
 
             users.save().then(() => {
-                respuesta.status = "300";
+                respuesta.status = "200";
                 respuesta.txt = "Usuario creado exitodamente";
                 respuesta.usuario = users;
 
