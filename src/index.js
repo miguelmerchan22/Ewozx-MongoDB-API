@@ -86,9 +86,7 @@ app.get('/consultar/ejemplo', async(req,res) => {
 app.get('/consultar/:direccion', async(req,res) => {
 
     let cuenta = req.params.direccion;
-
     let respuesta = {};
-
     usuario = await user.find({ direccion: cuenta }, function (err, docs) {});
 
     //console.log(usuario);
@@ -98,12 +96,11 @@ app.get('/consultar/:direccion', async(req,res) => {
 
         respuesta.status = "200";
         respuesta.txt = "Esta cuenta no está registrada";
-        res.send(respuesta);
+        res.status(200).send(respuesta);
 
     }else{
         respuesta = usuario[0];
-        respuesta.status = "300";
-        res.status(300).send(respuesta);
+        res.status(200).send(respuesta);
     }
 
 });
