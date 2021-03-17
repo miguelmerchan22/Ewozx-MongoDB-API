@@ -105,9 +105,10 @@ app.get('/consultar/:direccion', async(req,res) => {
 
 });
 
-app.get('/registrar/:direccion', async(req,res) => {
+app.post('/registrar/:direccion', async(req,res) => {
 
     let cuenta = req.params.direccion;
+    let sponsor = req.body.sponsor;
     let respuesta = {};
     respuesta.status = "200";
 
@@ -132,7 +133,7 @@ app.get('/registrar/:direccion', async(req,res) => {
              var users = new user({
                 direccion: cuenta,
                 registered: false,
-                sponsor: '',
+                sponsor: sponsor,
                 exist: false,
                 ethereum: '',
                 eth: false,
