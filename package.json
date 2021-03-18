@@ -4,7 +4,8 @@
   "description": "es una api para interactuar con mongose",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src"
+    "start": "node src",
+    "dev": "nodemon src"
   },
   "author": "steven stc",
   "license": "ISC",
