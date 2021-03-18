@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const uri = 'mongodb+srv://userwozx:wozx1234567890@ewozx.neief.mongodb.net/registro';
-const options = {useNewUrlParser: true, useUnifiedTopology: true};
+const options = { useNewUrlParser: true, useUnifiedTopology: true };
 
 mongoose.connect(uri, options).then(
   () => { console.log("Conectado Exitodamente!");},
@@ -43,21 +43,21 @@ var user = mongoose.model('usuarios', {
 
     });
 
-    var aplicacion = mongoose.model('aplicacion', {
-            nombre: String,
-            wozxSaldo: Number,
-            wozxSaldoAsignado: Number,
-            wozxSaldoRecibido: Number,
-            wozxSaldoRetirado: Number,
-            tronSaldo: Number,
-            tronSaldoAsignado: Number,
-            tronSaldoRecibido: Number,
-            tronSaldoRetirado: Number,
-            permitirRegistros: Boolean,
-            permitirRetiros: Boolean,
-            depositoMinimo: Number
+  var aplicacion = mongoose.model('aplicacions', {
+          nombre: String,
+          wozxSaldo: Number,
+          wozxSaldoAsignado: Number,
+          wozxSaldoRecibido: Number,
+          wozxSaldoRetirado: Number,
+          tronSaldo: Number,
+          tronSaldoAsignado: Number,
+          tronSaldoRecibido: Number,
+          tronSaldoRetirado: Number,
+          permitirRegistros: Boolean,
+          permitirRetiros: Boolean,
+          depositoMinimo: Number
 
-        });
+      });
 
 var usuariobuscado = 'TB7RTxBPY4eMvKjceXj8SWjVnZCrWr4XvF';
 
@@ -197,7 +197,7 @@ app.post('/actualizar/:direccion', async(req,res) => {
 
 });
 
-app.post('/registrar/aplicacion', async(req,res) => {
+app.get('/registrar/aplicacion', async(req,res) => {
 
     let cuenta = "ewozx";
 
@@ -209,7 +209,7 @@ app.post('/registrar/aplicacion', async(req,res) => {
     if ( miApp != "" ) {
         respuesta.status = "303";
         respuesta.txt = "Aplicacion ya registrada";
-        respuesta.usuario = usuario[0];
+        respuesta.usuario = miApp[0];
 
         res.send(respuesta);
 
@@ -232,7 +232,7 @@ app.post('/registrar/aplicacion', async(req,res) => {
 
         apps.save().then(() => {
             respuesta.status = "200";
-            respuesta.txt = "Usuario creado exitodamente";
+            respuesta.txt = "Aplicacion creada exitodamente";
             respuesta.usuario = apps;
 
             res.send(respuesta);
