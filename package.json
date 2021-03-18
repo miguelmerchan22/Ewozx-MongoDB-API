@@ -2,9 +2,9 @@
   "name": "mongoose-api",
   "version": "1.0.0",
   "description": "es una api para interactuar con mongose",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon start app.js"
+    "start": "nodemon src"
   },
   "author": "steven stc",
   "license": "ISC",
