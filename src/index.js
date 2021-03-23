@@ -150,6 +150,27 @@ app.get('/consultar/:direccion', async(req,res) => {
 
         respuesta.status = "200";
         respuesta.txt = "Esta cuenta no está registrada";
+        respuesta = {
+                direccion: 'N/A',
+                registered: false,
+                sponsor: 'N/A',
+                ethereum: 'N/A',
+                eth: false,
+                rango: 0,
+                recompensa: false,
+                nivel: [0,0,0,0,0,0,0,0,0,0],
+                balanceTrx: 0,
+                withdrawnTrx: 0,
+                investedWozx: 0,
+                withdrawnWozx: 0,
+                historial: [{
+                    tiempo: Date.now(),
+                    valor: 0,
+                    moneda: 'N/A',
+                    accion: 'N/A'
+
+                }]
+            };
         res.status(200).send(respuesta);
 
     }else{
