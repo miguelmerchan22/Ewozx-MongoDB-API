@@ -16,8 +16,6 @@ TronWeb = new TronWeb(
   TRONGRID_API,
   TRONGRID_API
 );
-TronWeb.trx.getTransaction("159a98b2495fd1dd6c4eb7849d185a4859c9966bbd8d2da0756a5b69996c2cab").then(result => {console.log(result)});
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -116,7 +114,10 @@ app.get('/consultar/transaccion/:id', async(req,res) => {
         res.send({result: false});
       }
     })
-    .catch(console.log)
+    .catch(value=>{
+      console.log(value);
+      res.send({result: false});
+    })
 
 
 
