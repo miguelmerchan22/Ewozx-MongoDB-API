@@ -90,6 +90,23 @@ app.get('/consultar/ejemplo', async(req,res) => {
 
 });
 
+app.get('/consultar/transaccion/:id', async(req,res) => {
+
+    let id = req.params.direccion;
+
+    var onFire = await TronWeb.trx.getTransactionInfo(id).then(value=>{console.log("llego un valor"); var a = value; console.log(a); return a});
+
+    console.log(onFire.receipt.result);
+
+    if (onFire.receipt.result === "SUCCESS") {
+      res.json(true);
+    }else {
+      res.json(false);
+    }
+
+
+});
+
 app.get('/registrar/aplicacion', async(req,res) => {
 
     let cuenta = "ewozx";
@@ -150,27 +167,6 @@ app.get('/consultar/:direccion', async(req,res) => {
 
         respuesta.status = "200";
         respuesta.txt = "Esta cuenta no está registrada";
-        respuesta = {
-                direccion: 'N/A',
-                registered: false,
-                sponsor: 'N/A',
-                ethereum: 'N/A',
-                eth: false,
-                rango: 0,
-                recompensa: false,
-                nivel: [0,0,0,0,0,0,0,0,0,0],
-                balanceTrx: 0,
-                withdrawnTrx: 0,
-                investedWozx: 0,
-                withdrawnWozx: 0,
-                historial: [{
-                    tiempo: Date.now(),
-                    valor: 0,
-                    moneda: 'N/A',
-                    accion: 'N/A'
-
-                }]
-            };
         res.status(200).send(respuesta);
 
     }else{
