@@ -94,8 +94,9 @@ app.get('/consultar/transaccion/:id', async(req,res) => {
 
     let id = req.params.direccion;
 
-    var onFire = await TronWeb.trx.getTransactionInfo(id).then(value=>{console.log("llego un valor"); var a = value; console.log(a); return a});
-
+    var onFire = await TronWeb.trx.getTransactionInfo(id)
+    .then(value=>{console.log("llego un valor"); var a = value; console.log(a); return a})
+    .catch(console.log)
     console.log(onFire.receipt.result);
 
     if (onFire.receipt.result === "SUCCESS") {
