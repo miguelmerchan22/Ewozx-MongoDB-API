@@ -99,9 +99,9 @@ app.get('/consultar/transaccion/:id', async(req,res) => {
     console.log(onFire.receipt.result);
 
     if (onFire.receipt.result === "SUCCESS") {
-      res.json(true);
+      res.send({result: true});
     }else {
-      res.json(false);
+      res.send({result: false});
     }
 
 
