@@ -85,10 +85,13 @@ app.get('/precio/usd/trx', async(req,res) => {
     var apiUrl = 'https://api.coingecko.com/api/v3/coins/tron';
     const response = await fetch(apiUrl)
     .catch(error =>{console.error(error)})
-    const json = await response.json();
-    //console.log(json.market_data.current_price.usd)
+    .then(console.log);
 
-    res.send(json.market_data.current_price.usd);
+    const json = await response.json();
+    console.log(json.market_data.current_price.usd);
+
+    res.send("entro aca");
+    //res.send(json.market_data.current_price.usd);
 
 });
 
