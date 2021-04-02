@@ -1,13 +1,17 @@
 const express = require('express')
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+const CoinGecko = require('coingecko-api');
 var TronWeb = require('tronweb');
+
+const CoinGeckoClient = new CoinGecko();
 
 const app = express();
 const port = process.env.PORT || 3003;
 const token = process.env.APP_MT;
 const uri = process.env.APP_URI || "mongodb+srv://userwozx:wozx1234567890@ewozx.neief.mongodb.net/registro";
 const TRONGRID_API = process.env.APP_API || "https://api.shasta.trongrid.io";
+const proxy = process.env.APP_PROXY || "https://proxy-wozx.herokuapp.com/";
 
 console.log(TRONGRID_API);
 
@@ -80,18 +84,28 @@ app.get('/', async(req,res) => {
 
 });
 
+
 app.get('/precio/usd/trx', async(req,res) => {
 
-    var apiUrl = 'https://api.coingecko.com/api/v3/coins/tron';
-    const response = await fetch(apiUrl)
-    .catch(error =>{console.error(error)})
-    .then(console.log);
+  let data = await CoinGeckoClient.simple.price({
+      ids: ['tron'],
+      vs_currencies: ['usd']
+  });
+  //console.log(data);
 
-    const json = await response.json();
-    console.log(json.market_data.current_price.usd);
+  res.send(data)
 
-    res.send("entro aca");
-    //res.send(json.market_data.current_price.usd);
+});
+
+app.get('/precio/usd/wozx', async(req,res) => {
+
+  let data = await CoinGeckoClient.simple.price({
+      ids: ['wozx'],
+      vs_currencies: ['usd']
+  });
+  //console.log(data);
+
+  res.send(data)
 
 });
 
