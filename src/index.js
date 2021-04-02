@@ -316,52 +316,8 @@ app.post('/actualizar/:direccion', async(req,res) => {
     let token2 = req.body.token;
     let datos = req.body
 
-    let referidos = req.body.referidos;
-
     if ( token == token2 ) {
       usuario = await user.updateOne({ direccion: cuenta }, datos);
-
-      if (referidos.hacer){
-
-        for (var i = 0; i < referidos.recompensa.length; i++) {
-
-            if (referidos.informacionSponsor.registered && referidos.informacionSponsor.recompensa ) {
-
-              referidos.informacionSponsor.balanceTrx += referidos.amountTrxsindescuento*referidos.recompensa[i];
-
-              if (referidos.informacionCuenta.aumentar) {
-                referidos.informacionSponsor.nivel[i]++;
-              }
-
-              var rango = referidos.precioUsdTron*referidos.amountTrxsindescuento*referidos.recompensa[i];
-              rango = rango.toFixed(2);
-              rango = parseFloat(rango);
-
-              var amountpararefer = referidos.amountTrxsindescuento*referidos.recompensa[i];
-
-              var id2 = await contractApp.depositoTronUsuario(referidos.informacionSponsor.direccion, parseInt(amountpararefer*1000000)).send();
-
-              referidos.informacionSponsor.rango += rango;
-              referidos.informacionSponsor.historial.push({
-                  tiempo: Date.now(),
-                  valor: amountpararefer,
-                  moneda: 'TRX',
-                  accion: 'Redward Referer -> $ '+rango+' USD',
-                  link: referidos.id2
-
-              })
-
-              await user.updateOne({ direccion: referidos.informacionSponsor.direccion }, referidos.informacionSponsor);
-
-
-            }
-
-            referidos.informacionSponsor = await user.find({ direccion: referidos.informacionSponsor.sponsor }, function (err, docs) {});
-
-          }
-        }
-
-
       res.send(usuario);
 
     }else{
