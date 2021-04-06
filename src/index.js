@@ -41,7 +41,7 @@ var user = mongoose.model('usuarios', {
         eth: Boolean,
         rango: Number,
         recompensa: Boolean,
-        nivel: [[String]],
+        niveles: [[String]],
         balanceTrx: Number,
         withdrawnTrx: Number,
         investedWozx: Number,
