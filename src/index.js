@@ -333,6 +333,8 @@ app.post('/referidos/', async(req,res) => {
     let datos = req.body.datos;
 
     console.log(datos);
+    datos = JSON.parse(datos)
+    console.log(datos);
     console.log(datos.direccion);
 
     if ( token == token2 ) {
