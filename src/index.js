@@ -338,13 +338,12 @@ app.post('/referidos/', async(req,res) => {
     if ( token == token2 ) {
 
     var usuario = await user.find({ direccion: datos.direccion }, function (err, docs) {});
-    usuario = JSON.parse(usuario);
     //console.log(usuario);
+    console.log(usuario.direccion);
 
-    console.log(usuario.sponsor);
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
-    sponsor = JSON.parse(sponsor);
-    console.log(sponsor);
+    console.log(sponsor.direccion);
+
     var done = 0;
 
     if ( TronWeb.isAddress(usuario.sponsor) && sponsor.registered) {
