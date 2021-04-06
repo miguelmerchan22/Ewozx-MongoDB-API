@@ -306,14 +306,19 @@ app.post('/referidos/', async(req,res) => {
 
     console.log(datos);
 
+    if ( token == token2 ) {
+
     var usuario = await user.find({ direccion: datos.direccion }, function (err, docs) {});
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
+    var done = 0;
 
     if ( TronWeb.isAddress(usuario.sponsor) && sponsor.registered) {
 
       for (var i = 0; i < datos.recompensa.length; i++) {
 
         if (sponsor.registered && sponsor.recompensa ) {
+
+          done++;
 
           sponsor.balanceTrx += datos.monto*datos.recompensa[i];
 
@@ -356,9 +361,8 @@ app.post('/referidos/', async(req,res) => {
       }
     }
 
-    if ( token == token2 ) {
-      usuario = await user.updateOne({ direccion: cuenta }, datos);
-      res.send(usuario);
+
+      res.send({"done": done});
 
     }else{
       res.send("No autorizado");
