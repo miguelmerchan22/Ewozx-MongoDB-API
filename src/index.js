@@ -332,15 +332,15 @@ app.post('/referidos/', async(req,res) => {
     let token2 = req.body.token;
     let datos = req.body.datos;
 
-    console.log(datos);
     datos = JSON.parse(datos)
     console.log(datos);
-    console.log(datos.direccion);
 
     if ( token == token2 ) {
 
-    var usuario = await user.find({ direccion: "TB7RTxBPY4eMvKjceXj8SWjVnZCrWr4XvF" }, function (err, docs) {});
-    console.log(usuario);
+    var usuario = await user.find({ direccion: datos.direccion }, function (err, docs) {});
+    //console.log(usuario);
+
+    console.log(usuario.sponsor);
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
     console.log(sponsor);
     var done = 0;
