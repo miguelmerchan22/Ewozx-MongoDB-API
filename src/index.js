@@ -396,7 +396,7 @@ app.post('/referidos/', async(req,res) => {
     }
 
 
-      res.send({"done": done, "data":datos});
+      res.send({"done": done, "data":datos, "usuario": usuario, "sponsor":sponsor});
 
     }else{
       res.send("No autorizado");
