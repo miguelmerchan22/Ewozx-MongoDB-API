@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+const CoinGecko = require('coingecko-api');
 var TronWeb = require('tronweb');
 
 const app = express();
@@ -8,9 +9,12 @@ const port = process.env.PORT || 3003;
 const token = process.env.APP_MT;
 const uri = process.env.APP_URI || "mongodb+srv://userwozx:wozx1234567890@ewozx.neief.mongodb.net/registro";
 const TRONGRID_API = process.env.APP_API || "https://api.shasta.trongrid.io";
+const proxy = process.env.APP_PROXY || "https://proxy-wozx.herokuapp.com/";
 const prykey = process.env.APP_PRYKEY;
 
 console.log(TRONGRID_API);
+
+const CoinGeckoClient = new CoinGecko();
 
 TronWeb = new TronWeb(
   TRONGRID_API,
@@ -37,7 +41,7 @@ var user = mongoose.model('usuarios', {
         eth: Boolean,
         rango: Number,
         recompensa: Boolean,
-        nivel: [[{address: String}]],
+        nivel: [[String]],
         balanceTrx: Number,
         withdrawnTrx: Number,
         investedWozx: Number,
@@ -78,6 +82,30 @@ app.get('/', async(req,res) => {
       err => { res.send(err); }
     );
 
+
+});
+
+app.get('/precio/usd/trx', async(req,res) => {
+
+  let data = await CoinGeckoClient.simple.price({
+      ids: ['tron'],
+      vs_currencies: ['usd']
+  });
+  //console.log(data);
+
+  res.send(data)
+
+});
+
+app.get('/precio/usd/wozx', async(req,res) => {
+
+  let data = await CoinGeckoClient.simple.price({
+      ids: ['wozx'],
+      vs_currencies: ['usd']
+  });
+  //console.log(data);
+
+  res.send(data)
 
 });
 
@@ -192,7 +220,7 @@ app.get('/consultar/:direccion', async(req,res) => {
            eth: false,
            rango: 0,
            recompensa: false,
-           nivel: [[],[],[],[],[],[],[],[],[],[]],
+           niveles: [[],[],[],[],[],[],[],[],[],[]],
            balanceTrx: 0,
            withdrawnTrx: 0,
            investedWozx: 0,
@@ -249,7 +277,7 @@ app.post('/registrar/:direccion', async(req,res) => {
                 rango: 0,
                 recompensa: false,
                 aumentar: true,
-                nivel: [[],[],[],[],[],[],[],[],[],[]],
+                niveles: [[],[],[],[],[],[],[],[],[],[]],
                 balanceTrx: 0,
                 withdrawnTrx: 0,
                 investedWozx: 0,
