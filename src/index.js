@@ -93,7 +93,7 @@ app.get('/precio/usd/trx', async(req,res) => {
   });
   //console.log(data);
 
-  res.send(data);
+  res.send(data)
 
 });
 
@@ -105,7 +105,7 @@ app.get('/precio/usd/wozx', async(req,res) => {
   });
   //console.log(data);
 
-  res.send(data);
+  res.send(data)
 
 });
 
@@ -344,7 +344,7 @@ app.post('/referidos/', async(req,res) => {
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
     sponsor = sponsor[0];
     //console.log(sponsor);
-    console.log(sponsor.direccion);
+    //console.log(sponsor.direccion);
 
     var done = 0;
     var trx = 0;
@@ -355,14 +355,15 @@ app.post('/referidos/', async(req,res) => {
 
         if (sponsor.registered && sponsor.recompensa ) {
 
-
+          console.log(sponsor.direccion);
 
           sponsor.balanceTrx += datos.monto*datos.recompensa[i];
 
-          var aumentar = sponsor.niveles[i].find(element => element == usuario.direccion);
-
           const found = undefined;
 
+          var aumentar = await sponsor.niveles[i].find(element => element == usuario.direccion);
+
+          console.log(found);
           console.log(aumentar);
 
           if ( aumentar == found ) {
