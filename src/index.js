@@ -338,11 +338,13 @@ app.post('/referidos/', async(req,res) => {
 
     var usuario = await user.find({ direccion: datos.direccion }, function (err, docs) {});
     usuario = usuario[0];
+    delete usuario._id;
     //console.log(usuario);
     //console.log(usuario.direccion);
 
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
     sponsor = sponsor[0];
+    delete sponsor._id;
     //console.log(sponsor);
     //console.log(sponsor.direccion);
 
@@ -385,8 +387,6 @@ app.post('/referidos/', async(req,res) => {
           var contractApp = await TronWeb.contract().at(datos.contractAddress);
           var id2 = await contractApp.depositoTronUsuario(sponsor.direccion, parseInt(valor*1000000)).send();
 
-          delete sponsor._id;
-
           sponsor.rango += rango;
           sponsor.historial.push({
               tiempo: Date.now(),
@@ -407,6 +407,8 @@ app.post('/referidos/', async(req,res) => {
         console.log(sponsor.sponsor);
 
         sponsor = await user.find({ direccion: sponsor.sponsor }, function (err, docs) {});
+        sponsor = sponsor[0];
+        delete sponsor._id;
         console.log(sponsor);
 
       }
