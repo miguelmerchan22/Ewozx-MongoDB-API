@@ -93,7 +93,7 @@ app.get('/precio/usd/trx', async(req,res) => {
   });
   //console.log(data);
 
-  res.send(data)
+  res.send(data);
 
 });
 
@@ -105,7 +105,7 @@ app.get('/precio/usd/wozx', async(req,res) => {
   });
   //console.log(data);
 
-  res.send(data)
+  res.send(data);
 
 });
 
