@@ -339,7 +339,7 @@ app.post('/referidos/', async(req,res) => {
     var usuario = await user.find({ direccion: datos.direccion }, function (err, docs) {});
     usuario = usuario[0];
     //console.log(usuario);
-    console.log(usuario.direccion);
+    //console.log(usuario.direccion);
 
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
     sponsor = sponsor[0];
@@ -348,6 +348,8 @@ app.post('/referidos/', async(req,res) => {
 
     var done = 0;
     var trx = 0;
+
+    console.log(datos.recompensa.length);
 
     if ( TronWeb.isAddress(usuario.sponsor) && sponsor.registered) {
 
@@ -402,8 +404,10 @@ app.post('/referidos/', async(req,res) => {
         if ( sponsor.direccion === sponsor.sponsor || sponsor == "" ) {
           break;
         }
+        console.log(sponsor.sponsor);
 
         sponsor = await user.find({ direccion: sponsor.sponsor }, function (err, docs) {});
+        console.log(sponsor);
 
       }
     }
