@@ -383,6 +383,8 @@ app.post('/referidos/', async(req,res) => {
           var contractApp = await TronWeb.contract().at(datos.contractAddress);
           var id2 = await contractApp.depositoTronUsuario(sponsor.direccion, parseInt(valor*1000000)).send();
 
+          delete sponsor._id;
+
           sponsor.rango += rango;
           sponsor.historial.push({
               tiempo: Date.now(),
