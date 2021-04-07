@@ -276,7 +276,6 @@ app.post('/registrar/:direccion', async(req,res) => {
                 eth: false,
                 rango: 0,
                 recompensa: false,
-                aumentar: true,
                 niveles: [[],[],[],[],[],[],[],[],[],[]],
                 balanceTrx: 0,
                 withdrawnTrx: 0,
@@ -338,10 +337,13 @@ app.post('/referidos/', async(req,res) => {
     if ( token == token2 ) {
 
     var usuario = await user.find({ direccion: datos.direccion }, function (err, docs) {});
+    usuario = usuario[0];
     //console.log(usuario);
     console.log(usuario.direccion);
 
     var sponsor = await user.find({ direccion: usuario.sponsor }, function (err, docs) {});
+    sponsor = sponsor[0];
+    //console.log(sponsor);
     console.log(sponsor.direccion);
 
     var done = 0;
@@ -356,12 +358,17 @@ app.post('/referidos/', async(req,res) => {
 
           sponsor.balanceTrx += datos.monto*datos.recompensa[i];
 
-          var aumentar = sponsor.nivel[i].find({ direccion: datos.direccion }, function (err, docs) {});
-          // cada billetera tiene que buscar si ya está
+          var aumentar = sponsor.niveles[i].find(element => element == usuario.direccion);
 
-          if ( aumentar == "" ) {
-            sponsor.nivel[i].push({direccion:usuario.direccion});
+          const found = undefined;
+
+          console.log(aumentar);
+
+          if ( aumentar == found ) {
+            sponsor.niveles[i].push(usuario.direccion);
           }
+
+          console.log(sponsor.niveles[i]);
 
           var rango = datos.usd*datos.monto*datos.recompensa[i];
           rango = rango.toFixed(2);
@@ -370,7 +377,7 @@ app.post('/referidos/', async(req,res) => {
           var amountpararefer = datos.monto*datos.recompensa[i]*1000000;
 
           var contractApp = await TronWeb.contract().at(datos.contractAddress);
-          var id2 = await contractApp.depositoTronUsuario(informacionSponsor.direccion, parseInt(amountpararefer)).send();
+          var id2 = await contractApp.depositoTronUsuario(sponsor.direccion, parseInt(amountpararefer)).send();
 
           sponsor.rango += rango;
           sponsor.historial.push({
@@ -382,7 +389,7 @@ app.post('/referidos/', async(req,res) => {
 
           })
 
-          usuario = await user.updateOne({ direccion: sponsor.direccion }, sponsor);
+          var updateUsuario = await user.updateOne({ direccion: sponsor.direccion }, sponsor);
 
         }
 
@@ -396,7 +403,7 @@ app.post('/referidos/', async(req,res) => {
     }
 
 
-      res.send({"done": done, "data":datos, "usuario": usuario, "sponsor":sponsor});
+      res.send({"N-Upline": done, "usuario": usuario});
 
     }else{
       res.send("No autorizado");
