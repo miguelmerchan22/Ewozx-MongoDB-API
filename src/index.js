@@ -331,7 +331,7 @@ app.post('/referidos/', async(req,res) => {
     let token2 = req.body.token;
     let datos = req.body.datos;
 
-    datos = JSON.parse(datos)
+    //datos = JSON.parse(datos);//use whit postman
     console.log(datos);
 
     if ( token == token2 ) {
