@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const CoinGecko = require('coingecko-api');
+const fetch = require("node-fetch");
 var TronWeb = require('tronweb');
 
 const app = express();
