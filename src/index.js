@@ -95,13 +95,13 @@ app.get('/precio/usd/trx', async(req,res) => {
   //console.log(data);*/
 
   var apiUrl = 'https://data.gateapi.io/api2/1/marketlist';
-  const response = await fetch(proxy+apiUrl)
+  const response = await fetch(apiUrl)
   .catch(error =>{console.error(error)})
   const json = await response.json();
 
-  var upd = json.data.find(element => element.pair == "wozx_usdt");
+  //var upd = json.data.find(element => element.pair == "wozx_usdt");
 
-  console.log(upd);
+  //console.log(upd);
 
   return json;
 
