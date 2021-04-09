@@ -107,7 +107,7 @@ app.get('/precio/usd/trx', async(req,res) => {
 
   res.status(200).send({
     "data":{
-      "trx":{
+      "tron":{
         "usd":parseFloat(upd.rate)
       }
     }
